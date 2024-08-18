@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Hotel Management API
+  description: API for managing hotels, products, and tables
+servers:
+  - url: https://localhost:8062/hotel-ms
+    description: Local server
+paths:
+  /product:
+    get:
+      summary: Get Products by Hotel ID
+      operationId: getProductsByHotelId
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '404':
+          description: Hotel not found
+    post:
+      summary: Add Product with Hotel
+      operationId: addProductWithHotel
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '201':
+          description: Product added successfully
+        '400':
+          description: Invalid request
+    put:
+      summary: Update Product with Hotel
+      operationId: updateProductWithHotel
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Product updated successfully
+        '400':
+          description: Invalid request
+    delete:
+      summary: Delete Product
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted successfully
+        '404':
+          description: Product not found
+    patch:
+      summary: Update Product Function with Hotel
+      operationId: updateProductFunctionWithHotel
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Product function updated successfully
+        '400':
+          description: Invalid request
+
+  /table:
+    get:
+      summary: Get Tables by Hotel ID
+      operationId: getTablesByHotelId
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of tables
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Table'
+        '404':
+          description: Hotel not found
+    post:
+      summary: Add Table with Hotel
+      operationId: addTableWithHotel
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableRequest'
+      responses:
+        '201':
+          description: Table added successfully
+        '400':
+          description: Invalid request
+    put:
+      summary: Update Table with Hotel
+      operationId: updateTableWithHotel
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableRequest'
+      responses:
+        '200':
+          description: Table updated successfully
+        '400':
+          description: Invalid request
+    delete:
+      summary: Delete Table
+      operationId: deleteTable
+      parameters:
+        - name: tableId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Table deleted successfully
+        '404':
+          description: Table not found
+    patch:
+      summary: Update Table Function with Hotel
+      operationId: updateTableFunctionWithHotel
+      parameters:
+        - name: hotelId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: tableId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableRequest'
+      responses:
+        '200':
+          description: Table function updated successfully
+        '400':
+          description: Invalid request
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - Breakfast
+            - Lunch
+            - Dinner
+        pricePerQty:
+          type: number
+        image:
+          type: string
+
+    Table:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - occupied
+            - unoccupied
+        tableLocation:
+          type: string
+        isActive:
+          type: boolean
+        noOfPeopleCanSeat:
+          type: integer
+
+    ProductRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Product'
+
+    TableRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Table'

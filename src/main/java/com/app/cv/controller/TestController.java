@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-    @GetMapping("/hotel-ms/test")
+    @GetMapping("/cv-hotel/test")
     public String test() {
         return "Hotel service is working!";
     }
